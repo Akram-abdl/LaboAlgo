@@ -3,3 +3,4 @@ GRID_SIZE = [10, 15]
 SQUARE_SIZE = [60, 60]
 MARGIN = 5
 FPS = 60
+
