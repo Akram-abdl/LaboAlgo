@@ -7,11 +7,11 @@ from paths import imagePath
 pygame.init()
 WIN = pygame.display.set_mode((WIN_SIZE[0], WIN_SIZE[1]))
 pygame.display.set_caption("Dofus like")
+clock = pygame.time.Clock()
 
 
 def game():
     run = True
-    clock = pygame.time.Clock()
     board = Board()
     while run:
         WIN.fill((0, 0, 0))
@@ -40,9 +40,8 @@ def game():
 
 
 def settings():
-    backBtn = Button(f"{imagePath}/menu/back_normal.png", f"{imagePath}/menu/back_hover.png", (700, WIN_SIZE[1] - 100), WIN)
     run = True
-    clock = pygame.time.Clock()
+    backBtn = Button(f"{imagePath}/menu/back_normal.png", f"{imagePath}/menu/back_hover.png", (700, WIN_SIZE[1] - 100), WIN)
     while run:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)
@@ -67,7 +66,6 @@ def settings():
 def main_menu():
     playBtn = Button(f"{imagePath}/menu/start_normal.png", f"{imagePath}/menu/start_hover.png", (700, 200), WIN)
     settingsBtn = Button(f"{imagePath}/menu/settings_normal.png", f"{imagePath}/menu/settings_hover.png", (700, 500), WIN)
-    clock = pygame.time.Clock()
     while True:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)
