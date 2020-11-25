@@ -16,7 +16,7 @@ class Board:
             for column in range(GRID_SIZE[1]):
                 color = (255, 255, 255)
                 if self.grid[row][column] == 1:
-                    color = (0, 255, 0)
+                    color = (204, 202, 202)
                 pygame.draw.rect(
                     win,
                     color,

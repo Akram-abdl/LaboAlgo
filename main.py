@@ -22,14 +22,15 @@ def main():
                 quit()
                 break
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouseX, mouseY = pygame.mouse.get_pos()
+                column = mouseX // (SQUARE_SIZE[0] + MARGIN)
+                row = mouseY // (SQUARE_SIZE[1] + MARGIN)
 
-                pos = pygame.mouse.get_pos()
-
-                column = pos[0] // (SQUARE_SIZE[0] + MARGIN)
-                row = pos[1] // (SQUARE_SIZE[1] + MARGIN)
-
-                board.grid[row][column] = 1
-                print("Click ", pos, "Grid coordinates: ", row, column)
+                if board.grid[row][column] == 0:
+                    board.grid[row][column] = 1
+                else:
+                    board.grid[row][column] = 0
+                print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {column}")
 
         board.draw_grid(WIN)
         pygame.display.update()
