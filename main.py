@@ -1,6 +1,6 @@
 import pygame
 from board import Board
-from constants import WIN_SIZE, FPS, MARGIN, SQUARE_SIZE
+from constants import WIN_SIZE, FPS, MARGIN, SQUARE_SIZE, GRID_SIZE
 from button import Button
 from paths import imagePath
 
@@ -28,10 +28,11 @@ def game():
                 column = mouseX // (SQUARE_SIZE[0] + MARGIN)
                 row = mouseY // (SQUARE_SIZE[1] + MARGIN)
 
-                if board.grid[row][column] == 0:
-                    board.grid[row][column] = 1
-                else:
-                    board.grid[row][column] = 0
+                if row < GRID_SIZE[0] and column < GRID_SIZE[1]:
+                    if board.grid[row][column] == 0:
+                        board.grid[row][column] = 1
+                    else:
+                        board.grid[row][column] = 0
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {column}")
 
         board.draw_grid(WIN)
