@@ -23,7 +23,7 @@ def game():
                 pygame.quit()
                 quit()
                 break
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouseX, mouseY = pygame.mouse.get_pos()
                 column = mouseX // (SQUARE_SIZE[0] + MARGIN)
                 row = mouseY // (SQUARE_SIZE[1] + MARGIN)
@@ -55,7 +55,7 @@ def settings():
             if event.type == pygame.QUIT:
                 run = False
                 break
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if backBtn.hovered:
                     run = False
                     break
@@ -82,7 +82,7 @@ def main_menu():
                 pygame.quit()
                 quit()
                 break
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if playBtn.hovered:
                     game()
                 elif settingsBtn.hovered:
