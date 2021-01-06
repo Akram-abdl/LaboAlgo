@@ -32,11 +32,11 @@ class Character:
         j = self.col
         moves = []
 
-        if i + 1 <= GRID_SIZE[0]:
+        if i + 1 < GRID_SIZE[0]:
             moves.append((i + 1, j))
         if i - 1 >= 0:
             moves.append((i - 1, j))
-        if j + 1 <= GRID_SIZE[1]:
+        if j + 1 < GRID_SIZE[1]:
             moves.append((i, j + 1))
         if j - 1 >= 0:
             moves.append((i, j - 1))
