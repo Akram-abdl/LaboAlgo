@@ -13,9 +13,15 @@ clock = pygame.time.Clock()
 def game():
     run = True
     board = Board()
+    spritechar = pygame.image.load('assets\images\sprite\spritechar.png').convert_alpha()
+    posX = 460
+    posY = 249
     while run:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)
+        
+        
+        
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -27,16 +33,33 @@ def game():
                 mouseX, mouseY = pygame.mouse.get_pos()
                 column = mouseX // (SQUARE_SIZE[0] + MARGIN)
                 row = mouseY // (SQUARE_SIZE[1] + MARGIN)
+                
+                
+                
 
                 if row < GRID_SIZE[0] and column < GRID_SIZE[1]:
                     if board.grid[row][column] == 0:
                         board.grid[row][column] = 1
                     else:
                         board.grid[row][column] = 0
-                print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {column}")
+                    
+                print(f"Click ({mouseX} {mouseY}) | Grid coordinates: Row = {row} {posX} , Column= {column} {posY}")
+                posX = (MARGIN + SQUARE_SIZE[0]) * column + MARGIN 
+                posY = (MARGIN + SQUARE_SIZE[1]) * row -11
+                
+        
+            
 
         board.draw_grid(WIN)
+        WIN.blit(spritechar, (posX, posY))
+        
+        
         pygame.display.update()
+
+
+
+
+
 
 
 def settings():
