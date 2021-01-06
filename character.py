@@ -10,6 +10,8 @@ class Character:
         self.mana = CHAR_STATS[charClass]["mana"]
         self.defense = CHAR_STATS[charClass]["defense"]
 
+        self.img = pygame.image.load("assets\images\sprite\spritechar.png").convert_alpha()
+
         self.row = row
         self.col = col
 
@@ -23,14 +25,4 @@ class Character:
         self.col = pos[1]
 
     def draw(self, win):
-        color = (255, 0, 0)
-        pygame.draw.rect(
-            win,
-            color,
-            [
-                (MARGIN + SQUARE_SIZE[0]) * self.col + 7 + MARGIN,
-                (MARGIN + SQUARE_SIZE[1]) * self.row + 7 + MARGIN,
-                SQUARE_SIZE[0] - 15,
-                SQUARE_SIZE[1] - 15,
-            ],
-        )
+        win.blit(self.img, ((MARGIN + SQUARE_SIZE[0]) * self.col + MARGIN, (MARGIN + SQUARE_SIZE[1]) * self.row + MARGIN))
