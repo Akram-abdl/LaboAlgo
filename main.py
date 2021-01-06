@@ -14,6 +14,7 @@ clock = pygame.time.Clock()
 def game():
     run = True
     board = Board()
+    charTile = None
     while run:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)
@@ -26,26 +27,38 @@ def game():
                 break
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouseX, mouseY = pygame.mouse.get_pos()
-                column = mouseX // (SQUARE_SIZE[0] + MARGIN)
+                col = mouseX // (SQUARE_SIZE[0] + MARGIN)
                 row = mouseY // (SQUARE_SIZE[1] + MARGIN)
 
-                if row < GRID_SIZE[0] and column < GRID_SIZE[1]:
-                    if isinstance(board.grid[row][column], Character):
-                        if board.grid[row][column].isSelected():
-                            board.grid[row][column].selected = False
+                if row < GRID_SIZE[0] and col < GRID_SIZE[1]:
+                    tileSelected = board.grid[row][col]
+                    if isinstance(tileSelected, Character):  # grid char
+                        if tileSelected.isSelected():
+                            tileSelected.selected = False
                         else:
-                            board.grid[row][column].selected = True
+                            tileSelected.selected = True
 
-                        if board.grid[row][column].isSelected():
-                            moves = board.grid[row][column].getMoves()
+                        if tileSelected.isSelected():
+                            moves = tileSelected.getMoves()
                             for i in moves:
                                 board.grid[i[0]][i[1]] = 1
+                            charTile = tileSelected
                         else:
-                            moves = board.grid[row][column].getMoves()
+                            moves = tileSelected.getMoves()
                             for i in moves:
                                 board.grid[i[0]][i[1]] = 0
+                            charTile = None
 
-                print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {column}")
+                    elif tileSelected == 1:  # grid moves
+                        # remove old grid moves
+                        for i in moves:
+                            board.grid[i[0]][i[1]] = 0
+                        charTile.selected = False
+
+                        board.grid[row][col] = charTile
+                        board.grid[row][col].change_pos((row, col))
+
+                print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {col}")
 
         board.draw(WIN)
         pygame.display.update()
