@@ -41,6 +41,3 @@ class Character:
                 moves.append((self.row, self.col - i))
 
         return moves
-
-    def showMoves(self, win):
-        moves = self.getMoves()
