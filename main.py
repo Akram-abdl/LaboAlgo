@@ -3,6 +3,7 @@ from board import Board
 from constants import WIN_SIZE, FPS, MARGIN, SQUARE_SIZE, GRID_SIZE
 from button import Button
 from paths import imagePath
+from character import Character
 
 pygame.init()
 WIN = pygame.display.set_mode((WIN_SIZE[0], WIN_SIZE[1]))
@@ -29,10 +30,11 @@ def game():
                 row = mouseY // (SQUARE_SIZE[1] + MARGIN)
 
                 if row < GRID_SIZE[0] and column < GRID_SIZE[1]:
-                    if board.grid[row][column] == 0:
-                        board.grid[row][column] = 1
-                    else:
+                    if isinstance(board.grid[row][column], Character):
+                        board.grid[row][column].change_pos((row + 1, column))
+                        board.grid[row + 1][column] = board.grid[row][column]
                         board.grid[row][column] = 0
+
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {column}")
 
         board.draw(WIN)
