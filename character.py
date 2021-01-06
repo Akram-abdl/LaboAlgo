@@ -40,8 +40,6 @@ class Character:
             if self.col - i >= 0:
                 moves.append((self.row, self.col - i))
 
-        print(moves)
-
         return moves
 
     def showMoves(self, win):
