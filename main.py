@@ -14,7 +14,7 @@ clock = pygame.time.Clock()
 def game():
     run = True
     board = Board()
-    charTile = None
+    oldSel = None
     while run:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)
@@ -31,32 +31,36 @@ def game():
                 row = mouseY // (SQUARE_SIZE[1] + MARGIN)
 
                 if row < GRID_SIZE[0] and col < GRID_SIZE[1]:
-                    tileSelected = board.grid[row][col]
-                    if isinstance(tileSelected, Character):  # grid char
+                    if isinstance(board.grid[row][col], Character) and board.grid[row][col].isOwner(board.turn):  # grid char
+                        tileSelected = board.grid[row][col]
                         if tileSelected.isSelected():
                             tileSelected.selected = False
                         else:
                             tileSelected.selected = True
 
                         if tileSelected.isSelected():
-                            moves = tileSelected.getMoves()
+                            moves = tileSelected.getMoves(board)
                             for i in moves:
                                 board.grid[i[0]][i[1]] = 1
-                            charTile = tileSelected
+                            oldSel = tileSelected
+
                         else:
-                            moves = tileSelected.getMoves()
+                            moves = tileSelected.getMoves(board)
                             for i in moves:
                                 board.grid[i[0]][i[1]] = 0
-                            charTile = None
+                            oldSel = tileSelected
 
-                    elif tileSelected == 1:  # grid moves
+                    elif board.grid[row][col] == 1:  # grid moves
                         # remove old grid moves
                         for i in moves:
                             board.grid[i[0]][i[1]] = 0
-                        charTile.selected = False
+                        oldSel.selected = False
 
-                        board.grid[row][col] = charTile
+                        board.grid[row][col] = oldSel
+                        board.grid[oldSel.row][oldSel.col] = 0
                         board.grid[row][col].changePos((row, col))
+
+                        board.turn = board.playerList[(board.turn + 1) % len(board.playerList)]
 
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {col}")
 
