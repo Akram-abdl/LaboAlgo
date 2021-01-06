@@ -56,7 +56,7 @@ def game():
                         charTile.selected = False
 
                         board.grid[row][col] = charTile
-                        board.grid[row][col].change_pos((row, col))
+                        board.grid[row][col].changePos((row, col))
 
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {col}")
 

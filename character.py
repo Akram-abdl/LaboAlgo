@@ -20,7 +20,7 @@ class Character:
     def isSelected(self):
         return self.selected
 
-    def change_pos(self, pos):
+    def changePos(self, pos):
         self.row = pos[0]
         self.col = pos[1]
 
