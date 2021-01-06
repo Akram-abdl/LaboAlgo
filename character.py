@@ -45,14 +45,8 @@ class Character:
             if self.col - i >= 0:
                 moves.append((self.row, self.col - i))
 
-        print(moves)
         for i in moves:
-            # print("--")
-            # print(i)
             if isinstance(board.grid[i[0]][i[1]], Character):
-                # print("oui")
                 moves.remove(i)
-        print("===")
-        print(moves)
 
         return moves
