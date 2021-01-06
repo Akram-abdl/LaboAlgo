@@ -18,5 +18,12 @@ class Board:
                     color,
                     [(MARGIN + SQUARE_SIZE[0]) * column + MARGIN, (MARGIN + SQUARE_SIZE[1]) * row + MARGIN, SQUARE_SIZE[0], SQUARE_SIZE[1]],
                 )
-                if self.grid[row][column] != 0:
+                if self.grid[row][column] == 1:
+                    color = (150, 202, 202)
+                    pygame.draw.rect(
+                        win,
+                        color,
+                        [(MARGIN + SQUARE_SIZE[0]) * column + MARGIN, (MARGIN + SQUARE_SIZE[1]) * row + MARGIN, SQUARE_SIZE[0], SQUARE_SIZE[1]],
+                    )
+                elif self.grid[row][column] != 0:
                     self.grid[row][column].draw(win)

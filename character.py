@@ -18,7 +18,7 @@ class Character:
         self.selected = False
 
     def isSelected(self):
-        return self.isSelected
+        return self.selected
 
     def change_pos(self, pos):
         self.row = pos[0]
@@ -26,3 +26,24 @@ class Character:
 
     def draw(self, win):
         win.blit(self.img, ((MARGIN + SQUARE_SIZE[0]) * self.col + MARGIN, (MARGIN + SQUARE_SIZE[1]) * self.row + MARGIN))
+
+    def getMoves(self):
+        i = self.row
+        j = self.col
+        moves = []
+
+        if i + 1 <= GRID_SIZE[0]:
+            moves.append((i + 1, j))
+        if i - 1 >= 0:
+            moves.append((i - 1, j))
+        if j + 1 <= GRID_SIZE[1]:
+            moves.append((i, j + 1))
+        if j - 1 >= 0:
+            moves.append((i, j - 1))
+
+        print(moves)
+
+        return moves
+
+    def showMoves(self, win):
+        moves = self.getMoves()

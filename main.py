@@ -31,9 +31,19 @@ def game():
 
                 if row < GRID_SIZE[0] and column < GRID_SIZE[1]:
                     if isinstance(board.grid[row][column], Character):
-                        board.grid[row][column].change_pos((row + 1, column))
-                        board.grid[row + 1][column] = board.grid[row][column]
-                        board.grid[row][column] = 0
+                        if board.grid[row][column].isSelected():
+                            board.grid[row][column].selected = False
+                        else:
+                            board.grid[row][column].selected = True
+
+                        if board.grid[row][column].isSelected():
+                            moves = board.grid[row][column].getMoves()
+                            for i in moves:
+                                board.grid[i[0]][i[1]] = 1
+                        else:
+                            moves = board.grid[row][column].getMoves()
+                            for i in moves:
+                                board.grid[i[0]][i[1]] = 0
 
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {column}")
 
