@@ -35,7 +35,7 @@ def game():
                         board.grid[row][column] = 0
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {column}")
 
-        board.draw_grid(WIN)
+        board.draw(WIN)
         pygame.display.update()
 
 
