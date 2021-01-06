@@ -28,18 +28,17 @@ class Character:
         win.blit(self.img, ((MARGIN + SQUARE_SIZE[0]) * self.col + MARGIN, (MARGIN + SQUARE_SIZE[1]) * self.row + MARGIN))
 
     def getMoves(self):
-        i = self.row
-        j = self.col
         moves = []
 
-        if i + 1 < GRID_SIZE[0]:
-            moves.append((i + 1, j))
-        if i - 1 >= 0:
-            moves.append((i - 1, j))
-        if j + 1 < GRID_SIZE[1]:
-            moves.append((i, j + 1))
-        if j - 1 >= 0:
-            moves.append((i, j - 1))
+        for i in range(1, self.movePoint + 1):
+            if self.row + i < GRID_SIZE[0]:
+                moves.append((self.row + i, self.col))
+            if self.row - i >= 0:
+                moves.append((self.row - i, self.col))
+            if self.col + i < GRID_SIZE[1]:
+                moves.append((self.row, self.col + i))
+            if self.col - i >= 0:
+                moves.append((self.row, self.col - i))
 
         print(moves)
 
