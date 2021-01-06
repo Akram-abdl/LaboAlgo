@@ -43,17 +43,16 @@ def game():
                     else:
                         board.grid[row][column] = 0
                     
-                print(f"Click ({mouseX} {mouseY}) | Grid coordinates: Row = {row} {posX} , Column= {column} {posY}")
+                
                 posX = (MARGIN + SQUARE_SIZE[0]) * column + MARGIN 
                 posY = (MARGIN + SQUARE_SIZE[1]) * row -11
                 
         
             
 
-        board.draw_grid(WIN)
+
+        board.draw(WIN)
         WIN.blit(spritechar, (posX, posY))
-        
-        
         pygame.display.update()
 
 

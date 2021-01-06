@@ -1,21 +1,22 @@
 import pygame
 from constants import SQUARE_SIZE, MARGIN, GRID_SIZE
+from character import Character
 
 
 class Board:
     def __init__(self):
-        self.grid = []
+        self.grid = [[0 for x in range(GRID_SIZE[1])] for _ in range(GRID_SIZE[0])]
 
-        for row in range(GRID_SIZE[0]):
-            self.grid.append([])
-            for column in range(GRID_SIZE[1]):
-                self.grid[row].append(0)  # Append a cell
+        self.grid[0][int(GRID_SIZE[1] / 2)] = Character("swordsman", round(GRID_SIZE[0] / 2), round(GRID_SIZE[1] / 2))
 
-    def draw_grid(self, win):
+    def draw(self, win):
         for row in range(GRID_SIZE[0]):
             for column in range(GRID_SIZE[1]):
                 color = (255, 255, 255)
-                if self.grid[row][column] == 1:
+                print(self.grid[row][column])
+                if isinstance(self.grid[row][column], Character):
+                    color = (255, 0, 0)
+                elif self.grid[row][column] == 1:
                     color = (204, 202, 202)
                 pygame.draw.rect(
                     win,
