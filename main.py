@@ -2,7 +2,7 @@ import pygame
 from board import Board
 from constants import WIN_SIZE, FPS, MARGIN, SQUARE_SIZE, GRID_SIZE
 from button import Button
-from paths import imagePath
+from paths import menuPath
 from character import Character
 
 pygame.init()
@@ -66,7 +66,7 @@ def game():
 
 def settings():
     run = True
-    backBtn = Button(f"{imagePath}/menu/back_normal.png", f"{imagePath}/menu/back_hover.png", (700, WIN_SIZE[1] - 100), WIN)
+    backBtn = Button(f"{menuPath}back_normal.png", f"{menuPath}back_hover.png", (700, WIN_SIZE[1] - 100), WIN)
     while run:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)
@@ -89,8 +89,8 @@ def settings():
 
 
 def main_menu():
-    playBtn = Button(f"{imagePath}/menu/start_normal.png", f"{imagePath}/menu/start_hover.png", (700, 200), WIN)
-    settingsBtn = Button(f"{imagePath}/menu/settings_normal.png", f"{imagePath}/menu/settings_hover.png", (700, 500), WIN)
+    playBtn = Button(f"{menuPath}start_normal.png", f"{menuPath}start_hover.png", (700, 200), WIN)
+    settingsBtn = Button(f"{menuPath}settings_normal.png", f"{menuPath}settings_hover.png", (700, 500), WIN)
     while True:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)

@@ -1,6 +1,6 @@
-from constants import CHAR_STATS
-from constants import SQUARE_SIZE, MARGIN, GRID_SIZE
+from constants import SQUARE_SIZE, MARGIN, GRID_SIZE, CHAR_STATS
 import pygame
+from paths import spritePath
 
 
 class Character:
@@ -10,7 +10,7 @@ class Character:
         self.mana = CHAR_STATS[charClass]["mana"]
         self.defense = CHAR_STATS[charClass]["defense"]
 
-        self.img = pygame.image.load("assets\images\sprite\spritechar.png").convert_alpha()
+        self.img = pygame.image.load(f"{spritePath}spritechar.png").convert_alpha()
 
         self.row = row
         self.col = col
