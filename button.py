@@ -23,6 +23,3 @@ class Button:
             self.screen.blit(self.image_hover, self.imagerect)
         else:
             self.screen.blit(self.image, self.imagerect)
-
-    # def hover(self, mouse):
-    #     return self.imagerect.collidepoint(mouse[0], mouse[1])

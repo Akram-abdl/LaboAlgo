@@ -10,7 +10,7 @@ class Character:
         self.mana = CHAR_STATS[charClass]["mana"]
         self.defense = CHAR_STATS[charClass]["defense"]
 
-        self.img = pygame.image.load(f"{spritePath}spritechar.png").convert_alpha()
+        self.img = pygame.image.load(f"{spritePath}{charClass}.png").convert_alpha()
 
         self.player = player
 

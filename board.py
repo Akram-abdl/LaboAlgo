@@ -1,7 +1,6 @@
 import pygame
 from constants import SQUARE_SIZE, MARGIN, GRID_SIZE
 from character import Character
-from itertools import cycle
 
 
 class Board:
@@ -9,8 +8,9 @@ class Board:
         self.grid = [[0 for x in range(GRID_SIZE[1])] for _ in range(GRID_SIZE[0])]
 
         self.grid[0][int(GRID_SIZE[1] / 2)] = Character("swordsman", 0, int(GRID_SIZE[1] / 2), 0)
+        self.grid[0][int(GRID_SIZE[1] / 2) + 1] = Character("swordsman", 0, int(GRID_SIZE[1] / 2) + 1, 0)
 
-        self.grid[GRID_SIZE[0] - 1][int(GRID_SIZE[1] / 2)] = Character("swordsman", GRID_SIZE[0] - 1, int(GRID_SIZE[1] / 2), 1)
+        self.grid[GRID_SIZE[0] - 1][int(GRID_SIZE[1] / 2)] = Character("archer", GRID_SIZE[0] - 1, int(GRID_SIZE[1] / 2), 1)
 
         self.playerList = [0, 1]
         self.turn = 1

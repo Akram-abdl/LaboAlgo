@@ -32,6 +32,7 @@ def game():
 
                 if row < GRID_SIZE[0] and col < GRID_SIZE[1]:
                     if isinstance(board.grid[row][col], Character) and board.grid[row][col].isOwner(board.turn):  # grid char
+
                         tileSelected = board.grid[row][col]
                         if tileSelected.isSelected():
                             tileSelected.selected = False
