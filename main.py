@@ -15,6 +15,8 @@ def game():
     run = True
     board = Board()
     oldSel = None
+    endTurn = False
+    playerMovePoint = 5
     while run:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)
@@ -32,7 +34,6 @@ def game():
 
                 if row < GRID_SIZE[0] and col < GRID_SIZE[1]:
                     if isinstance(board.grid[row][col], Character) and board.grid[row][col].isOwner(board.turn):  # grid char
-
                         tileSelected = board.grid[row][col]
                         if tileSelected.isSelected():
                             tileSelected.selected = False
@@ -42,9 +43,9 @@ def game():
                         if tileSelected.isSelected():
                             moves = tileSelected.getMoves(board)
                             for i in moves:
-                                board.grid[i[0]][i[1]] = 1
+                                if abs(row - i[0] + col - i[1]) <= playerMovePoint:  # if enought playerMovePoint show blue tile
+                                    board.grid[i[0]][i[1]] = 1
                             oldSel = tileSelected
-
                         else:
                             moves = tileSelected.getMoves(board)
                             for i in moves:
@@ -59,9 +60,18 @@ def game():
 
                         board.grid[row][col] = oldSel
                         board.grid[oldSel.row][oldSel.col] = 0
+
+                        playerMovePoint -= abs(oldSel.row - row + oldSel.col - col)
+
+                        if playerMovePoint <= 0:
+                            endTurn = True
+
                         board.grid[row][col].changePos((row, col))
 
-                        board.turn = board.playerList[(board.turn + 1) % len(board.playerList)]
+                if endTurn:
+                    board.turn = board.playerList[(board.turn + 1) % len(board.playerList)]
+                    endTurn = False
+                    playerMovePoint = 5
 
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {col}")
 
