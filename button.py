@@ -16,8 +16,6 @@ class Button:
 
         self.draw()
 
-        # self.draw_button(screen)
-
     def draw(self):
         if self.hovered:
             self.screen.blit(self.image_hover, self.imagerect)

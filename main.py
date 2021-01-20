@@ -18,6 +18,7 @@ def game():
     endTurn = False
     playerMovePoint = 5
     moves = None
+    attack = None
     while run:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)
@@ -37,9 +38,11 @@ def game():
                     if isinstance(board.grid[row][col], Character) and board.grid[row][col].isOwner(board.turn):  # grid char
                         tileSelected = board.grid[row][col]
 
-                        if prevSel and prevSel != tileSelected and prevSel.isSelected():  # remove old moves
+                        if prevSel and prevSel != tileSelected and prevSel.isSelected():
                             for i in moves:  # remove old grid moves
                                 board.grid[i[0]][i[1]] = 0
+                            for i in attack:  # remove old grid moves
+                                board.grid[i[0]][i[1]].target = False
                             prevSel.selected = False
 
                         if tileSelected.isSelected():
@@ -47,7 +50,7 @@ def game():
                         else:
                             tileSelected.selected = True
 
-                        moves = tileSelected.getMoves(board)
+                        moves, attack = tileSelected.getMoves(board, playerMovePoint)
                         for i in moves:
                             if tileSelected.isSelected():
                                 if abs(row - i[0] + col - i[1]) <= playerMovePoint:  # if enought playerMovePoint show blue tile
@@ -55,11 +58,22 @@ def game():
                             else:
                                 board.grid[i[0]][i[1]] = 0
 
+                        for i in attack:
+                            if tileSelected.isSelected():
+                                board.grid[i[0]][i[1]].target = True
+                            else:
+                                board.grid[i[0]][i[1]].target = False
+
                         prevSel = tileSelected
 
                     elif board.grid[row][col] == 1:  # grid moves
                         for i in moves:  # remove old grid moves
                             board.grid[i[0]][i[1]] = 0
+                        moves = None
+                        for i in attack:
+                            board.grid[i[0]][i[1]].target = False
+                        attack = None
+
                         prevSel.selected = False
 
                         board.grid[row][col] = prevSel

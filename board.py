@@ -47,7 +47,8 @@ class Board:
         for row in range(GRID_SIZE[0]):
             for column in range(GRID_SIZE[1]):
                 color = (204, 202, 202)
-                if self.grid[row][column] == 1:  # grid moves
+                tile = self.grid[row][column]
+                if tile == 1:  # grid moves
                     color = (150, 202, 202)
                 pygame.draw.rect(
                     win,
@@ -55,8 +56,14 @@ class Board:
                     [(MARGIN + SQUARE_SIZE[0]) * column + MARGIN, (MARGIN + SQUARE_SIZE[1]) * row + MARGIN, SQUARE_SIZE[0], SQUARE_SIZE[1]],
                 )
 
-                if isinstance(self.grid[row][column], Character):  # grid char
-                    self.grid[row][column].draw(win)
+                if isinstance(tile, Character):  # grid char
+                    if tile.target:
+                        pygame.draw.rect(
+                            win,
+                            (255, 100, 100),
+                            [(MARGIN + SQUARE_SIZE[0]) * column + MARGIN, (MARGIN + SQUARE_SIZE[1]) * row + MARGIN, SQUARE_SIZE[0], SQUARE_SIZE[1]],
+                        )
+                    tile.draw(win)
 
         win.blit(self.lblPlayer, self.lblPlayerRect)
         win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)

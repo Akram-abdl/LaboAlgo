@@ -19,6 +19,8 @@ class Character:
 
         self.selected = False
 
+        self.target = False
+
     def isOwner(self, player):
         return self.player == player
 
@@ -32,10 +34,13 @@ class Character:
     def draw(self, win):
         win.blit(self.img, ((MARGIN + SQUARE_SIZE[0]) * self.col + MARGIN, (MARGIN + SQUARE_SIZE[1]) * self.row + MARGIN))
 
-    def getMoves(self, board):
+    def getMoves(self, board, playerMovePoint):
         moves = []
+        attack = []
 
         for i in range(1, self.movePoint + 1):
+            if i > playerMovePoint:
+                break
             if self.row + i < GRID_SIZE[0]:
                 moves.append((self.row + i, self.col))
             if self.row - i >= 0:
@@ -48,5 +53,7 @@ class Character:
         for i in moves:
             if isinstance(board.grid[i[0]][i[1]], Character):
                 moves.remove(i)
+                if board.grid[i[0]][i[1]].player != board.turn:
+                    attack.append(i)
 
-        return moves
+        return moves, attack
