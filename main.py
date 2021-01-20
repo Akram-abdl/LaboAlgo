@@ -40,17 +40,15 @@ def game():
                         else:
                             tileSelected.selected = True
 
-                        if tileSelected.isSelected():
-                            moves = tileSelected.getMoves(board)
-                            for i in moves:
+                        moves = tileSelected.getMoves(board)
+                        for i in moves:
+                            if tileSelected.isSelected():
                                 if abs(row - i[0] + col - i[1]) <= playerMovePoint:  # if enought playerMovePoint show blue tile
                                     board.grid[i[0]][i[1]] = 1
-                            oldSel = tileSelected
-                        else:
-                            moves = tileSelected.getMoves(board)
-                            for i in moves:
+                            else:
                                 board.grid[i[0]][i[1]] = 0
-                            oldSel = tileSelected
+
+                        oldSel = tileSelected
 
                     elif board.grid[row][col] == 1:  # grid moves
                         for i in moves:  # remove old grid moves
@@ -62,10 +60,10 @@ def game():
 
                         playerMovePoint -= abs(oldSel.row - row + oldSel.col - col)
 
+                        board.grid[row][col].changePos((row, col))
+
                         if playerMovePoint <= 0:
                             endTurn = True
-
-                        board.grid[row][col].changePos((row, col))
 
                 if endTurn:
                     board.updateTurn()

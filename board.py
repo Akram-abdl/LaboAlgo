@@ -7,16 +7,28 @@ class Board:
     def __init__(self):
         self.grid = [[0 for x in range(GRID_SIZE[1])] for _ in range(GRID_SIZE[0])]
 
-        self.grid[0][int(GRID_SIZE[1] / 2)] = Character("swordsman", 0, int(GRID_SIZE[1] / 2), 0)
-        self.grid[0][int(GRID_SIZE[1] / 2) + 1] = Character("swordsman", 0, int(GRID_SIZE[1] / 2) + 1, 0)
-
-        self.grid[GRID_SIZE[0] - 1][int(GRID_SIZE[1] / 2)] = Character("archer", GRID_SIZE[0] - 1, int(GRID_SIZE[1] / 2), 1)
-
         self.playerList = [0, 1]
         self.turn = 0
 
         self.font = pygame.font.Font("freesansbold.ttf", 32)
-        self.lblPlayer = self.font.render(f"PLAYER {self.turn}", True, (255, 0, 0))
+        self.lblPlayer = None
+        self.lblPlayerRect = None
+        self.lblPlayerMovePoint = None
+        self.lblPlayerMovePointRect = None
+
+        self.initLbl()
+        self.initChar()
+
+    def initChar(self):
+        # Player 0
+        self.grid[0][int(GRID_SIZE[1] / 2)] = Character("swordsman", 0, int(GRID_SIZE[1] / 2), 0)
+        self.grid[0][int(GRID_SIZE[1] / 2) + 1] = Character("swordsman", 0, int(GRID_SIZE[1] / 2) + 1, 0)
+
+        # Player 1
+        self.grid[GRID_SIZE[0] - 1][int(GRID_SIZE[1] / 2)] = Character("archer", GRID_SIZE[0] - 1, int(GRID_SIZE[1] / 2), 1)
+
+    def initLbl(self):
+        self.lblPlayer = self.font.render(f"PLAYER {self.turn+1}", True, (255, 0, 0))
         self.lblPlayerRect = self.lblPlayer.get_rect()
         self.lblPlayerRect.center = (WIN_SIZE[0] - 170, 100)
 
@@ -25,7 +37,7 @@ class Board:
         self.lblPlayerMovePointRect.center = (WIN_SIZE[0] - 170, 200)
 
     def updatePlayerMove(self, movePoint):
-        self.lblPlayerMovePoint = self.font.render(f"Move : {movePoint}", True, (255, 0, 0))
+        self.lblPlayerMovePoint = self.font.render(f"Moves : {movePoint}", True, (255, 0, 0))
 
     def updateTurn(self):
         self.turn = self.playerList[(self.turn + 1) % len(self.playerList)]
