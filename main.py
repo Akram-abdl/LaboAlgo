@@ -14,9 +14,10 @@ clock = pygame.time.Clock()
 def game():
     run = True
     board = Board()
-    oldSel = None
+    prevSel = None
     endTurn = False
     playerMovePoint = 5
+    moves = None
     while run:
         WIN.fill((0, 0, 0))
         clock.tick(FPS)
@@ -35,6 +36,12 @@ def game():
                 if row < GRID_SIZE[0] and col < GRID_SIZE[1]:
                     if isinstance(board.grid[row][col], Character) and board.grid[row][col].isOwner(board.turn):  # grid char
                         tileSelected = board.grid[row][col]
+
+                        if prevSel and prevSel != tileSelected and prevSel.isSelected():  # remove old moves
+                            for i in moves:  # remove old grid moves
+                                board.grid[i[0]][i[1]] = 0
+                            prevSel.selected = False
+
                         if tileSelected.isSelected():
                             tileSelected.selected = False
                         else:
@@ -48,17 +55,17 @@ def game():
                             else:
                                 board.grid[i[0]][i[1]] = 0
 
-                        oldSel = tileSelected
+                        prevSel = tileSelected
 
                     elif board.grid[row][col] == 1:  # grid moves
                         for i in moves:  # remove old grid moves
                             board.grid[i[0]][i[1]] = 0
-                        oldSel.selected = False
+                        prevSel.selected = False
 
-                        board.grid[row][col] = oldSel
-                        board.grid[oldSel.row][oldSel.col] = 0
+                        board.grid[row][col] = prevSel
+                        board.grid[prevSel.row][prevSel.col] = 0
 
-                        playerMovePoint -= abs(oldSel.row - row + oldSel.col - col)
+                        playerMovePoint -= abs(prevSel.row - row + prevSel.col - col)
 
                         board.grid[row][col].changePos((row, col))
 
