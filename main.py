@@ -53,8 +53,7 @@ def game():
                             oldSel = tileSelected
 
                     elif board.grid[row][col] == 1:  # grid moves
-                        # remove old grid moves
-                        for i in moves:
+                        for i in moves:  # remove old grid moves
                             board.grid[i[0]][i[1]] = 0
                         oldSel.selected = False
 
