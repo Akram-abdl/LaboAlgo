@@ -68,9 +68,11 @@ def game():
                         board.grid[row][col].changePos((row, col))
 
                 if endTurn:
-                    board.turn = board.playerList[(board.turn + 1) % len(board.playerList)]
+                    board.updateTurn()
                     endTurn = False
                     playerMovePoint = 5
+
+                board.updatePlayerMove(playerMovePoint)
 
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {col}")
 

@@ -1,5 +1,5 @@
 import pygame
-from constants import SQUARE_SIZE, MARGIN, GRID_SIZE
+from constants import SQUARE_SIZE, MARGIN, GRID_SIZE, WIN_SIZE
 from character import Character
 
 
@@ -13,7 +13,23 @@ class Board:
         self.grid[GRID_SIZE[0] - 1][int(GRID_SIZE[1] / 2)] = Character("archer", GRID_SIZE[0] - 1, int(GRID_SIZE[1] / 2), 1)
 
         self.playerList = [0, 1]
-        self.turn = 1
+        self.turn = 0
+
+        self.font = pygame.font.Font("freesansbold.ttf", 32)
+        self.lblPlayer = self.font.render(f"PLAYER {self.turn}", True, (255, 0, 0))
+        self.lblPlayerRect = self.lblPlayer.get_rect()
+        self.lblPlayerRect.center = (WIN_SIZE[0] - 170, 100)
+
+        self.lblPlayerMovePoint = self.font.render("Moves : 5", True, (255, 0, 0))
+        self.lblPlayerMovePointRect = self.lblPlayerMovePoint.get_rect()
+        self.lblPlayerMovePointRect.center = (WIN_SIZE[0] - 170, 200)
+
+    def updatePlayerMove(self, movePoint):
+        self.lblPlayerMovePoint = self.font.render(f"Move : {movePoint}", True, (255, 0, 0))
+
+    def updateTurn(self):
+        self.turn = self.playerList[(self.turn + 1) % len(self.playerList)]
+        self.lblPlayer = self.font.render(f"PLAYER {self.turn+1}", True, (255, 0, 0))
 
     def draw(self, win):
         for row in range(GRID_SIZE[0]):
@@ -29,3 +45,6 @@ class Board:
 
                 if isinstance(self.grid[row][column], Character):  # grid char
                     self.grid[row][column].draw(win)
+
+        win.blit(self.lblPlayer, self.lblPlayerRect)
+        win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)
