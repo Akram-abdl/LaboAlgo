@@ -1,6 +1,6 @@
 import pygame
 from constants import SQUARE_SIZE, MARGIN, GRID_SIZE, WIN_SIZE
-from character import Character
+from Character import Character
 
 
 class Board:

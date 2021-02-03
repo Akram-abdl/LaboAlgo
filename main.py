@@ -1,9 +1,9 @@
 import pygame
-from board import Board
+from Board import Board
 from constants import WIN_SIZE, FPS, MARGIN, SQUARE_SIZE, GRID_SIZE
-from button import Button
+from Button import Button
 from paths import menuPath
-from character import Character
+from Character import Character
 
 pygame.init()
 WIN = pygame.display.set_mode((WIN_SIZE[0], WIN_SIZE[1]))
