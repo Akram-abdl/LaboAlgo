@@ -2,7 +2,7 @@ import pygame
 from board import Board
 from constants import WIN_SIZE, FPS, MARGIN, SQUARE_SIZE, GRID_SIZE
 from button import Button
-from paths import menuPath
+from paths import menuPath, imagePath
 from character import Character
 
 pygame.init()
@@ -19,8 +19,11 @@ def game():
     playerMovePoint = 5
     moves = None
     attack = None
+    bgimg = pygame.image.load("assets/images/background.jpg")
     while run:
+
         WIN.fill((0, 0, 0))
+        WIN.blit(bgimg, (0, 0))
         clock.tick(FPS)
 
         for event in pygame.event.get():
