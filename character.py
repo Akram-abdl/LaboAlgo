@@ -31,9 +31,6 @@ class Character:
         self.row = pos[0]
         self.col = pos[1]
 
-    def draw(self, win):
-        win.blit(self.img, ((MARGIN + SQUARE_SIZE[0]) * self.col + MARGIN, (MARGIN + SQUARE_SIZE[1]) * self.row + MARGIN))
-
     def getMoves(self, board, playerMovePoint):
         moves = []
         attack = []

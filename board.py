@@ -43,7 +43,7 @@ class Board:
         self.turn = self.playerList[(self.turn + 1) % len(self.playerList)]
         self.lblPlayer = self.font.render(f"PLAYER {self.turn+1}", True, (255, 0, 0))
 
-    def draw(self, win):
+    def drawBoard(self, win):
         for row in range(GRID_SIZE[0]):
             for column in range(GRID_SIZE[1]):
                 color = (204, 202, 202)
@@ -63,7 +63,10 @@ class Board:
                             (255, 100, 100),
                             [(MARGIN + SQUARE_SIZE[0]) * column + MARGIN, (MARGIN + SQUARE_SIZE[1]) * row + MARGIN, SQUARE_SIZE[0], SQUARE_SIZE[1]],
                         )
-                    tile.draw(win)
+                    self.drawChar(tile, win)
 
         win.blit(self.lblPlayer, self.lblPlayerRect)
         win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)
+
+    def drawChar(self, char, win):
+        win.blit(char.img, ((MARGIN + SQUARE_SIZE[0]) * char.col + MARGIN, (MARGIN + SQUARE_SIZE[1]) * char.row + MARGIN))

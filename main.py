@@ -99,7 +99,7 @@ def game():
 
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {col}")
 
-        board.draw(WIN)
+        board.drawBoard(WIN)
         pygame.display.update()
 
 
