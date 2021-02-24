@@ -22,8 +22,6 @@ def game():
     attack = None
     bgimg = pygame.image.load(f"{imagePath}background.jpg")
     while run:
-
-        WIN.fill((0, 0, 0))
         WIN.blit(bgimg, (0, 0))
         clock.tick(FPS)
 
@@ -89,6 +87,8 @@ def game():
 
                         if playerMovePoint <= 0:
                             endTurn = True
+                    elif board.grid[row][col].target:
+                        print("you can attack")
 
                 if endTurn:
                     board.updateTurn()
