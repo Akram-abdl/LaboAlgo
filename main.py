@@ -2,8 +2,9 @@ import pygame
 from Board import Board
 from constants import WIN_SIZE, FPS, MARGIN, SQUARE_SIZE, GRID_SIZE
 from Button import Button
-from paths import menuPath
+from paths import menuPath, imagePath
 from Character import Character
+from random import randint
 
 pygame.init()
 WIN = pygame.display.set_mode((WIN_SIZE[0], WIN_SIZE[1]))
@@ -19,8 +20,11 @@ def game():
     playerMovePoint = 5
     moves = None
     attack = None
+    bgimg = pygame.image.load(f"{imagePath}background.jpg")
     while run:
+
         WIN.fill((0, 0, 0))
+        WIN.blit(bgimg, (0, 0))
         clock.tick(FPS)
 
         for event in pygame.event.get():
@@ -89,7 +93,7 @@ def game():
                 if endTurn:
                     board.updateTurn()
                     endTurn = False
-                    playerMovePoint = 5
+                    playerMovePoint = randint(3, 6)
 
                 board.updatePlayerMove(playerMovePoint)
 
