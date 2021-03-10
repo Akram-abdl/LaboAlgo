@@ -58,13 +58,14 @@ def game():
                         prevSel.selected = False
 
                         board.playerMovePoint -= abs(prevSel.row - row + prevSel.col - col)
-
+                        prevSel.movePoint -= abs(prevSel.row - row + prevSel.col - col)
+                        
                         board.setCellValue(row, col, prevSel)
                         board.setCellValue(prevSel.row, prevSel.col, 0)
 
                         prevSel.changePos((row, col))
 
-                        if board.checkEndTurn():
+                        if board.checkEndTurn(prevSel):
                             endTurn = True
 
                     elif isinstance(cellSelected, Character) and board.grid[row][col]:
@@ -74,6 +75,10 @@ def game():
                     board.nextPlayer()
                     endTurn = False
                     board.resetMovePoint()
+                    for rows in board.grid:
+                        for cols in rows:
+                            if isinstance(cols, Character):
+                                cols.resetMovePoint()
 
                 board.updateLblPlayerMove()
 

@@ -53,7 +53,7 @@ class Board:
     def resetMoves(self):
         for i in self.moves:
             self.setCellValue(i[0], i[1], 0)
-
+    
     def setAttackTargets(self, cellSelected):
         for i in self.attackTargets:
             if cellSelected.isSelected():
@@ -68,9 +68,21 @@ class Board:
     def updateCellSelected(self, cellSelected):
         cellSelected.selected = False if cellSelected.isSelected() else True
 
-    def checkEndTurn(self):
-        return self.playerMovePoint <= 0
-
+    def checkEndTurn(self, prevSel):
+        endTurn = False
+        if self.playerMovePoint <= 0:
+            endTurn = True
+        elif prevSel.movePoint == 0:
+            playerEndTurn = True
+            for rows in self.grid:
+                for cell in rows:
+                    if isinstance(cell, Character):
+                        if cell.player == self.player and cell.movePoint > 0:
+                            playerEndTurn = False
+            if playerEndTurn:
+                endTurn = True
+        return endTurn
+          
     def resetMovePoint(self):
         self.playerMovePoint = randint(3, 6)
 

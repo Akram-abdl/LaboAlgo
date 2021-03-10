@@ -9,6 +9,7 @@ class Character(pygame.sprite.Sprite):
         self.movePoint = CHAR_STATS[charClass]["movePoint"]
         self.mana = CHAR_STATS[charClass]["mana"]
         self.defense = CHAR_STATS[charClass]["defense"]
+        self.charClass = charClass
 
         self.img = pygame.image.load(f"{spritePath}{charClass}.png").convert_alpha()
         self.rect = self.img.get_rect()
@@ -22,6 +23,9 @@ class Character(pygame.sprite.Sprite):
 
         self.target = False
 
+    def __str__(self):
+        return "oui"
+
     def isOwner(self, player):
         return self.player == player
 
@@ -33,6 +37,9 @@ class Character(pygame.sprite.Sprite):
 
     def getY(self):
         return (MARGIN + SQUARE_SIZE[1]) * self.row + MARGIN
+
+    def resetMovePoint(self):
+        self.movePoint = CHAR_STATS[self.charClass]["movePoint"]
 
     def changePos(self, pos):
         self.row = pos[0]
