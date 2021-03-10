@@ -124,4 +124,4 @@ class Board:
         win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)
 
     def drawChar(self, char, win):
-        win.blit(char.img, ((MARGIN + SQUARE_SIZE[0]) * char.col + MARGIN + 7, (MARGIN + SQUARE_SIZE[1]) * char.row + MARGIN))
+        win.blit(char.img, char.rect)
