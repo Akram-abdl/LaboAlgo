@@ -1,10 +1,9 @@
 import pygame
 from Board import Board
-from constants import WIN_SIZE, FPS, MARGIN, SQUARE_SIZE, GRID_SIZE
+from constants import WIN_SIZE, FPS
 from Button import Button
 from paths import menuPath, imagePath
 from Character import Character
-from random import randint
 
 pygame.init()
 WIN = pygame.display.set_mode((WIN_SIZE[0], WIN_SIZE[1]))
@@ -17,9 +16,6 @@ def game():
     board = Board()
     prevSel = None
     endTurn = False
-    playerMovePoint = 5
-    moves = None
-    attack = None
     bgimg = pygame.image.load(f"{imagePath}background.jpg")
     while run:
         WIN.blit(bgimg, (0, 0))
@@ -33,69 +29,53 @@ def game():
                 break
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouseX, mouseY = pygame.mouse.get_pos()
-                col = mouseX // (SQUARE_SIZE[0] + MARGIN)
-                row = mouseY // (SQUARE_SIZE[1] + MARGIN)
+                col, row = board.getRowCol(mouseX, mouseY)
 
-                if row < GRID_SIZE[0] and col < GRID_SIZE[1]:
-                    if isinstance(board.grid[row][col], Character) and board.grid[row][col].isOwner(board.turn):  # grid char
-                        tileSelected = board.grid[row][col]
+                if board.isInGrid(col, row):
+                    cellSelected = board.getCellValue(row, col)
+                    if isinstance(cellSelected, Character) and cellSelected.isOwner(board.player):  # grid char
 
-                        if prevSel and prevSel != tileSelected and prevSel.isSelected():
-                            for i in moves:  # remove old grid moves
-                                board.grid[i[0]][i[1]] = 0
-                            for i in attack:  # remove old grid moves
-                                board.grid[i[0]][i[1]].target = False
+                        if prevSel and prevSel != cellSelected and prevSel.isSelected():
+                            board.resetMoves()
+                            board.resetAttackTargets()
                             prevSel.selected = False
 
-                        if tileSelected.isSelected():
-                            tileSelected.selected = False
-                        else:
-                            tileSelected.selected = True
+                        board.updateCellSelected(cellSelected)
 
-                        moves, attack = tileSelected.getMoves(board, playerMovePoint)
-                        for i in moves:
-                            if tileSelected.isSelected():
-                                if abs(row - i[0] + col - i[1]) <= playerMovePoint:  # if enought playerMovePoint show blue tile
-                                    board.grid[i[0]][i[1]] = 1
-                            else:
-                                board.grid[i[0]][i[1]] = 0
+                        board.updateMovesList(cellSelected)
 
-                        for i in attack:
-                            if tileSelected.isSelected():
-                                board.grid[i[0]][i[1]].target = True
-                            else:
-                                board.grid[i[0]][i[1]].target = False
+                        board.setMoves(cellSelected)
+                        board.setAttackTargets(cellSelected)
 
-                        prevSel = tileSelected
+                        prevSel = cellSelected
 
-                    elif board.grid[row][col] == 1:  # grid moves
-                        for i in moves:  # remove old grid moves
-                            board.grid[i[0]][i[1]] = 0
-                        moves = None
-                        for i in attack:
-                            board.grid[i[0]][i[1]].target = False
-                        attack = None
+                    elif cellSelected == 1:  # grid moves
+                        board.resetMoves()
+                        board.moves = None
+                        board.resetAttackTargets()
+                        board.attackTargets = None
 
                         prevSel.selected = False
 
-                        board.grid[row][col] = prevSel
-                        board.grid[prevSel.row][prevSel.col] = 0
+                        board.playerMovePoint -= abs(prevSel.row - row + prevSel.col - col)
 
-                        playerMovePoint -= abs(prevSel.row - row + prevSel.col - col)
+                        board.setCellValue(row, col, prevSel)
+                        board.setCellValue(prevSel.row, prevSel.col, 0)
 
-                        board.grid[row][col].changePos((row, col))
+                        prevSel.changePos((row, col))
 
-                        if playerMovePoint <= 0:
+                        if board.checkEndTurn():
                             endTurn = True
-                    elif board.grid[row][col].target:
-                        print("you can attack")
+
+                    elif isinstance(cellSelected, Character) and board.grid[row][col]:
+                        print("you can attackTargets")
 
                 if endTurn:
-                    board.updateTurn()
+                    board.nextPlayer()
                     endTurn = False
-                    playerMovePoint = randint(3, 6)
+                    board.resetMovePoint()
 
-                board.updatePlayerMove(playerMovePoint)
+                board.updateLblPlayerMove()
 
                 print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {col}")
 

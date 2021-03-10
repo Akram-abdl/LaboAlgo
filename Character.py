@@ -3,7 +3,7 @@ import pygame
 from paths import spritePath
 
 
-class Character:
+class Character(pygame.sprite.Sprite):
     def __init__(self, charClass, row, col, player):
         self.health = CHAR_STATS[charClass]["hp"]
         self.movePoint = CHAR_STATS[charClass]["movePoint"]
@@ -11,11 +11,12 @@ class Character:
         self.defense = CHAR_STATS[charClass]["defense"]
 
         self.img = pygame.image.load(f"{spritePath}{charClass}.png").convert_alpha()
-
-        self.player = player
-
-        self.row = row
+        self.rect = self.img.get_rect()
         self.col = col
+        self.row = row
+        self.rect.x = self.getX()
+        self.rect.y = self.getY()
+        self.player = player
 
         self.selected = False
 
@@ -27,16 +28,25 @@ class Character:
     def isSelected(self):
         return self.selected
 
+    def getX(self):
+        return (MARGIN + SQUARE_SIZE[0]) * self.col + MARGIN + 7
+
+    def getY(self):
+        return (MARGIN + SQUARE_SIZE[1]) * self.row + MARGIN
+
     def changePos(self, pos):
         self.row = pos[0]
         self.col = pos[1]
 
-    def getMoves(self, board, playerMovePoint):
+        self.rect.x = self.getX()
+        self.rect.y = self.getY()
+
+    def getMoves(self, board):
         moves = []
         attack = []
 
         for i in range(1, self.movePoint + 1):
-            if i > playerMovePoint:
+            if i > board.playerMovePoint:
                 break
             if self.row + i < GRID_SIZE[0]:
                 moves.append((self.row + i, self.col))
@@ -50,7 +60,7 @@ class Character:
         for i in moves:
             if isinstance(board.grid[i[0]][i[1]], Character):
                 moves.remove(i)
-                if board.grid[i[0]][i[1]].player != board.turn:
+                if board.grid[i[0]][i[1]].player != board.player:
                     attack.append(i)
 
         return moves, attack
