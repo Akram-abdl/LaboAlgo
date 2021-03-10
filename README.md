@@ -14,5 +14,5 @@ Similaire à Dofus, vous contrôlerez un joueur parmi les différentes classes d
 ## Installation
 
 - Pour jouer au jeu, il faudra d'abord télécharger l'archive zip depuis le lien github suivant sous la section "code"
-- Lorsque cela est fait, extraire l'archive puis à l'aide d'un terminale, déplacez vous dans le dossier et lancer le fichier main en utilisant la commande suivante "python .main.py"
+- Lorsque cela est fait, extraire l'archive puis à l'aide d'un terminale, déplacez vous dans le dossier et lancer le fichier main en utilisant la commande suivante "python.exe .\main.py"
 - Le jeu démarre, il suffit donc de suivre les instructions sur l'écran
