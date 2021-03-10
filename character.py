@@ -31,12 +31,12 @@ class Character:
         self.row = pos[0]
         self.col = pos[1]
 
-    def getMoves(self, board, playerMovePoint):
+    def getMoves(self, board):
         moves = []
         attack = []
 
         for i in range(1, self.movePoint + 1):
-            if i > playerMovePoint:
+            if i > board.playerMovePoint:
                 break
             if self.row + i < GRID_SIZE[0]:
                 moves.append((self.row + i, self.col))
@@ -50,7 +50,7 @@ class Character:
         for i in moves:
             if isinstance(board.grid[i[0]][i[1]], Character):
                 moves.remove(i)
-                if board.grid[i[0]][i[1]].player != board.turn:
+                if board.grid[i[0]][i[1]].player != board.player:
                     attack.append(i)
 
         return moves, attack
