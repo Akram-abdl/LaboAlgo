@@ -57,8 +57,10 @@ def game():
 
                         prevSel.selected = False
 
-                        board.playerMovePoint -= abs(prevSel.row - row + prevSel.col - col)
-                        prevSel.movePoint -= abs(prevSel.row - row + prevSel.col - col)
+                        movePoint = abs(prevSel.row - row + prevSel.col - col)
+
+                        board.playerMovePoint -= movePoint
+                        prevSel.movePoint -= movePoint
 
                         board.setCellValue(row, col, prevSel)
                         board.setCellValue(prevSel.row, prevSel.col, 0)
@@ -68,7 +70,7 @@ def game():
                         if board.checkEndTurn(prevSel):
                             endTurn = True
 
-                    elif isinstance(cellSelected, Character) and board.grid[row][col]:
+                    elif isinstance(cellSelected, Character):
                         print("you can attackTargets")
 
                 if endTurn:
@@ -81,8 +83,6 @@ def game():
                                 cols.resetMovePoint()
 
                 board.updateLblPlayerMove()
-
-                print(f"Click ({mouseX} {mouseY}) | Grid coordinates: {row} {col}")
 
         board.drawBoard(WIN)
         pygame.display.update()
