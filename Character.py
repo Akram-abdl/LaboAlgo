@@ -4,7 +4,7 @@ from paths import spritePath
 
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, charClass, row, col, player):
+    def __init__(self, charClass, pos, player, index):
         self.health = CHAR_STATS[charClass]["hp"]
         self.movePoint = CHAR_STATS[charClass]["movePoint"]
         self.mana = CHAR_STATS[charClass]["mana"]
@@ -13,8 +13,8 @@ class Character(pygame.sprite.Sprite):
 
         self.img = pygame.image.load(f"{spritePath}{charClass}.png").convert_alpha()
         self.rect = self.img.get_rect()
-        self.col = col
-        self.row = row
+        self.row = pos[0]
+        self.col = pos[1]
         self.rect.x = self.getX()
         self.rect.y = self.getY()
         self.player = player

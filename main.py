@@ -70,7 +70,7 @@ def game():
                         if board.checkEndTurn(prevSel):
                             endTurn = True
 
-                    elif isinstance(cellSelected, Character):
+                    elif isinstance(cellSelected, Character) and not cellSelected.isOwner(board.player):
                         print("you can attackTargets")
 
                 if endTurn:

@@ -2,6 +2,7 @@ import pygame
 from constants import SQUARE_SIZE, MARGIN, GRID_SIZE, WIN_SIZE
 from Character import Character
 from random import randint
+from collections import defaultdict
 
 
 class Board:
@@ -16,13 +17,20 @@ class Board:
         self.atackTargets = None
 
         self.font = pygame.font.Font("freesansbold.ttf", 32)
+        self.fontHp = pygame.font.Font("freesansbold.ttf", 10)
+
+        self.charList = defaultdict(dict)
+        self.initChar()
+
         self.lblPlayer = None
         self.lblPlayerRect = None
         self.lblPlayerMovePoint = None
         self.lblPlayerMovePointRect = None
 
+        self.lblCharHpList = defaultdict(dict)
+        self.lblCharHpRect = None
+
         self.initLbl()
-        self.initChar()
 
     def getCellValue(self, row, col):
         return self.grid[row][col]
@@ -87,12 +95,22 @@ class Board:
         self.playerMovePoint = randint(3, 6)
 
     def initChar(self):
-        # Player 0
-        self.grid[0][int(GRID_SIZE[1] / 2)] = Character("swordsman", 0, int(GRID_SIZE[1] / 2), 0)
-        self.grid[0][int(GRID_SIZE[1] / 2) + 1] = Character("swordsman", 0, int(GRID_SIZE[1] / 2) + 1, 0)
+        charPlayer1 = ("swordsman", "swordsman")
+        charPlayer2 = ("archer", "swordsman")
 
-        # Player 1
-        self.grid[GRID_SIZE[0] - 1][int(GRID_SIZE[1] / 2)] = Character("archer", GRID_SIZE[0] - 1, int(GRID_SIZE[1] / 2), 1)
+        for index, char in enumerate(charPlayer1):
+            player = 0
+            row = 0
+            col = int(GRID_SIZE[1] / 2) + index
+            self.grid[row][col] = Character(char, (row, col), player, index)
+            self.charList[player][index] = self.grid[row][col]
+
+        for index, char in enumerate(charPlayer2):
+            player = 1
+            row = GRID_SIZE[0] - 1
+            col = int(GRID_SIZE[1] / 2) + index
+            self.grid[row][col] = Character(char, (row, col), player, index)
+            self.charList[player][index] = self.grid[row][col]
 
     def initLbl(self):
         self.lblPlayer = self.font.render(f"PLAYER {self.player+1}", True, (255, 0, 0))
@@ -105,6 +123,13 @@ class Board:
 
     def updateLblPlayerMove(self):
         self.lblPlayerMovePoint = self.font.render(f"Moves : {self.playerMovePoint}", True, (255, 0, 0))
+
+    def updateLblCharHp(self, win):
+        for i, index in self.charList.items():
+            for j, char in index.items():
+                self.lblCharHpList[i][j] = self.fontHp.render(f"{char.health}", True, (255, 0, 0))
+                lblCharHpRect = self.lblCharHpList[i][j].get_rect()
+                win.blit(self.lblCharHpList[i][j], (char.rect[0] - 5, (char.rect[1] + char.rect[3]) - lblCharHpRect[3]))
 
     def nextPlayer(self):
         self.player = self.playerList[(self.player + 1) % len(self.playerList)]
@@ -134,6 +159,7 @@ class Board:
 
         win.blit(self.lblPlayer, self.lblPlayerRect)
         win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)
+        self.updateLblCharHp(win)
 
     def drawChar(self, char, win):
         win.blit(char.img, char.rect)
