@@ -53,7 +53,7 @@ class Board:
     def resetMoves(self):
         for i in self.moves:
             self.setCellValue(i[0], i[1], 0)
-    
+
     def setAttackTargets(self, cellSelected):
         for i in self.attackTargets:
             if cellSelected.isSelected():
@@ -82,7 +82,7 @@ class Board:
             if playerEndTurn:
                 endTurn = True
         return endTurn
-          
+
     def resetMovePoint(self):
         self.playerMovePoint = randint(3, 6)
 
@@ -99,7 +99,7 @@ class Board:
         self.lblPlayerRect = self.lblPlayer.get_rect()
         self.lblPlayerRect.center = (WIN_SIZE[0] - 170, 100)
 
-        self.lblPlayerMovePoint = self.font.render("Moves : 5", True, (255, 0, 0))
+        self.lblPlayerMovePoint = self.font.render(f"Moves : {self.playerMovePoint}", True, (255, 0, 0))
         self.lblPlayerMovePointRect = self.lblPlayerMovePoint.get_rect()
         self.lblPlayerMovePointRect.center = (WIN_SIZE[0] - 170, 200)
 

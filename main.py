@@ -16,9 +16,9 @@ def game():
     board = Board()
     prevSel = None
     endTurn = False
-    bgimg = pygame.image.load(f"{imagePath}background.jpg")
+    bgImg = pygame.image.load(f"{imagePath}background.jpg")
     while run:
-        WIN.blit(bgimg, (0, 0))
+        WIN.blit(bgImg, (0, 0))
         clock.tick(FPS)
 
         for event in pygame.event.get():
@@ -59,7 +59,7 @@ def game():
 
                         board.playerMovePoint -= abs(prevSel.row - row + prevSel.col - col)
                         prevSel.movePoint -= abs(prevSel.row - row + prevSel.col - col)
-                        
+
                         board.setCellValue(row, col, prevSel)
                         board.setCellValue(prevSel.row, prevSel.col, 0)
 
