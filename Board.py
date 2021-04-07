@@ -18,6 +18,7 @@ class Board:
 
         self.font = pygame.font.Font("freesansbold.ttf", 32)
         self.fontHp = pygame.font.Font("freesansbold.ttf", 10)
+        self.fontMove = pygame.font.Font("freesansbold.ttf", 10)
 
         self.charList = defaultdict(dict)
         self.initChar()
@@ -28,7 +29,7 @@ class Board:
         self.lblPlayerMovePointRect = None
 
         self.lblCharHpList = defaultdict(dict)
-        self.lblCharHpRect = None
+        self.lblCharMoveList = defaultdict(dict)
 
         self.initLbl()
 
@@ -124,12 +125,19 @@ class Board:
     def updateLblPlayerMove(self):
         self.lblPlayerMovePoint = self.font.render(f"Moves : {self.playerMovePoint}", True, (255, 0, 0))
 
-    def updateLblCharHp(self, win):
+    def updateLblChar(self, win):
         for i, index in self.charList.items():
             for j, char in index.items():
                 self.lblCharHpList[i][j] = self.fontHp.render(f"{char.health}", True, (255, 0, 0))
                 lblCharHpRect = self.lblCharHpList[i][j].get_rect()
                 win.blit(self.lblCharHpList[i][j], (char.rect[0] - 5, (char.rect[1] + char.rect[3]) - lblCharHpRect[3]))
+
+                self.lblCharMoveList[i][j] = self.fontHp.render(f"{char.movePoint}", True, (99, 91, 78))
+                lblCharMoveRect = self.lblCharMoveList[i][j].get_rect()
+                win.blit(
+                    self.lblCharMoveList[i][j],
+                    (char.rect[0] + char.rect[3] - lblCharMoveRect[3] - 5, (char.rect[1] + char.rect[3]) - lblCharMoveRect[3]),
+                )
 
     def nextPlayer(self):
         self.player = self.playerList[(self.player + 1) % len(self.playerList)]
@@ -159,7 +167,7 @@ class Board:
 
         win.blit(self.lblPlayer, self.lblPlayerRect)
         win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)
-        self.updateLblCharHp(win)
+        self.updateLblChar(win)
 
     def drawChar(self, char, win):
         win.blit(char.img, char.rect)
