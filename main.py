@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 
 def game():
     run = True
-    board = Board()
+    board = Board(WIN)
     prevSel = None
     endTurn = False
     bgImg = pygame.image.load(f"{imagePath}background.jpg")
@@ -71,7 +71,9 @@ def game():
                             endTurn = True
 
                     elif isinstance(cellSelected, Character) and not cellSelected.isOwner(board.player):
+                        # board.ShowSkillUI()
                         print("you can attackTargets")
+                        # skill =
 
                 if endTurn:
                     board.nextPlayer()

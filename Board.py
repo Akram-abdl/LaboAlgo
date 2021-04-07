@@ -3,18 +3,20 @@ from constants import SQUARE_SIZE, MARGIN, GRID_SIZE, WIN_SIZE
 from Character import Character
 from random import randint
 from collections import defaultdict
+from Skill import Skill
 
 
 class Board:
-    def __init__(self):
+    def __init__(self, win):
         self.grid = [[0 for x in range(GRID_SIZE[1])] for _ in range(GRID_SIZE[0])]
 
         self.playerList = [0, 1]
         self.player = 0
         self.resetMovePoint()
 
+        self.win = win
+
         self.moves = None
-        self.atackTargets = None
 
         self.font = pygame.font.Font("freesansbold.ttf", 32)
         self.fontHp = pygame.font.Font("freesansbold.ttf", 10)
@@ -103,14 +105,14 @@ class Board:
             player = 0
             row = 0
             col = int(GRID_SIZE[1] / 2) + index
-            self.grid[row][col] = Character(char, (row, col), player, index)
+            self.grid[row][col] = Character(char, (row, col), player, index, self.win)
             self.charList[player][index] = self.grid[row][col]
 
         for index, char in enumerate(charPlayer2):
             player = 1
             row = GRID_SIZE[0] - 1
             col = int(GRID_SIZE[1] / 2) + index
-            self.grid[row][col] = Character(char, (row, col), player, index)
+            self.grid[row][col] = Character(char, (row, col), player, index, self.win)
             self.charList[player][index] = self.grid[row][col]
 
     def initLbl(self):
@@ -124,20 +126,6 @@ class Board:
 
     def updateLblPlayerMove(self):
         self.lblPlayerMovePoint = self.font.render(f"Moves : {self.playerMovePoint}", True, (255, 0, 0))
-
-    def updateLblChar(self, win):
-        for i, index in self.charList.items():
-            for j, char in index.items():
-                self.listLblCharHp[i][j] = self.fontHp.render(f"{char.health}", True, (255, 0, 0))
-                lblCharHpRect = self.listLblCharHp[i][j].get_rect()
-                win.blit(self.listLblCharHp[i][j], (char.rect[0] - 5, (char.rect[1] + char.rect[3]) - lblCharHpRect[3]))
-
-                self.listLblCharMovePoint[i][j] = self.fontHp.render(f"{char.movePoint}", True, (99, 91, 78))
-                lblCharMoveRect = self.listLblCharMovePoint[i][j].get_rect()
-                win.blit(
-                    self.listLblCharMovePoint[i][j],
-                    (char.rect[0] + char.rect[3] - lblCharMoveRect[3] - 5, (char.rect[1] + char.rect[3]) - lblCharMoveRect[3]),
-                )
 
     def nextPlayer(self):
         self.player = self.playerList[(self.player + 1) % len(self.playerList)]
@@ -163,11 +151,30 @@ class Board:
                             (255, 100, 100),
                             [(MARGIN + SQUARE_SIZE[0]) * column + MARGIN, (MARGIN + SQUARE_SIZE[1]) * row + MARGIN, SQUARE_SIZE[0], SQUARE_SIZE[1]],
                         )
+                    self.drawSkills(tile)
                     self.drawChar(tile, win)
-
-        win.blit(self.lblPlayer, self.lblPlayerRect)
-        win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)
-        self.updateLblChar(win)
+                    self.drawLblChar(win)
 
     def drawChar(self, char, win):
+        win.blit(self.lblPlayer, self.lblPlayerRect)
+        win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)
         win.blit(char.img, char.rect)
+
+    def drawLblChar(self, win):
+        for i, index in self.charList.items():
+            for j, char in index.items():
+                self.listLblCharHp[i][j] = self.fontHp.render(f"{char.health}", True, (255, 0, 0))
+                lblCharHpRect = self.listLblCharHp[i][j].get_rect()
+                win.blit(self.listLblCharHp[i][j], (char.rect[0] - 5, (char.rect[1] + char.rect[3]) - lblCharHpRect[3]))
+
+                self.listLblCharMovePoint[i][j] = self.fontHp.render(f"{char.movePoint}", True, (99, 91, 78))
+                lblCharMoveRect = self.listLblCharMovePoint[i][j].get_rect()
+                win.blit(
+                    self.listLblCharMovePoint[i][j],
+                    (char.rect[0] + char.rect[3] - lblCharMoveRect[3] - 5, (char.rect[1] + char.rect[3]) - lblCharMoveRect[3]),
+                )
+
+    def drawSkills(self, char):
+        if char.isSelected():
+            for skill in char.skills:
+                skill.button.draw()

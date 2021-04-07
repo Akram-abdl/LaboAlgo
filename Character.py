@@ -1,10 +1,11 @@
 from constants import SQUARE_SIZE, MARGIN, GRID_SIZE, CHAR_STATS
 import pygame
 from paths import spritePath
+from Skill import Skill
 
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, charClass, pos, player, index):
+    def __init__(self, charClass, pos, player, index, win):
         self.health = CHAR_STATS[charClass]["hp"]
         self.movePoint = CHAR_STATS[charClass]["movePoint"]
         self.mana = CHAR_STATS[charClass]["mana"]
@@ -19,12 +20,24 @@ class Character(pygame.sprite.Sprite):
         self.rect.y = self.getY()
         self.player = player
 
+        self.win = win
+
+        self.skills = []
+        self.initSkills()
+
         self.selected = False
 
         self.target = False
 
     def __str__(self):
         return "oui"
+
+    def initSkills(self):
+
+        for index, skill in CHAR_STATS[self.charClass]["skills"].items():
+            new_skill = Skill(skill, index, self.win)
+            new_skill.Hide()
+            self.skills.append(new_skill)
 
     def isOwner(self, player):
         return self.player == player
