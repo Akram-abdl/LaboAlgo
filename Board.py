@@ -3,7 +3,6 @@ from constants import SQUARE_SIZE, MARGIN, GRID_SIZE, WIN_SIZE
 from Character import Character
 from random import randint
 from collections import defaultdict
-from Skill import Skill
 
 
 class Board:
@@ -131,7 +130,7 @@ class Board:
         self.player = self.playerList[(self.player + 1) % len(self.playerList)]
         self.lblPlayer = self.font.render(f"PLAYER {self.player+1}", True, (255, 0, 0))
 
-    def drawBoard(self, win):
+    def drawBoard(self):
         for row in range(GRID_SIZE[0]):
             for column in range(GRID_SIZE[1]):
                 color = (204, 202, 202)
@@ -139,7 +138,7 @@ class Board:
                 if tile == 1:  # grid moves
                     color = (150, 202, 202)
                 pygame.draw.rect(
-                    win,
+                    self.win,
                     color,
                     [(MARGIN + SQUARE_SIZE[0]) * column + MARGIN, (MARGIN + SQUARE_SIZE[1]) * row + MARGIN, SQUARE_SIZE[0], SQUARE_SIZE[1]],
                 )
@@ -147,29 +146,29 @@ class Board:
                 if isinstance(tile, Character):  # grid char
                     if tile.target:
                         pygame.draw.rect(
-                            win,
+                            self.win,
                             (255, 100, 100),
                             [(MARGIN + SQUARE_SIZE[0]) * column + MARGIN, (MARGIN + SQUARE_SIZE[1]) * row + MARGIN, SQUARE_SIZE[0], SQUARE_SIZE[1]],
                         )
                     self.drawSkills(tile)
-                    self.drawChar(tile, win)
-                    self.drawLblChar(win)
+                    self.drawChar(tile)
+                    self.drawLblChar()
 
-    def drawChar(self, char, win):
-        win.blit(self.lblPlayer, self.lblPlayerRect)
-        win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)
-        win.blit(char.img, char.rect)
+    def drawChar(self, char):
+        self.win.blit(self.lblPlayer, self.lblPlayerRect)
+        self.win.blit(self.lblPlayerMovePoint, self.lblPlayerMovePointRect)
+        self.win.blit(char.img, char.rect)
 
-    def drawLblChar(self, win):
+    def drawLblChar(self):
         for i, index in self.charList.items():
             for j, char in index.items():
                 self.listLblCharHp[i][j] = self.fontHp.render(f"{char.health}", True, (255, 0, 0))
                 lblCharHpRect = self.listLblCharHp[i][j].get_rect()
-                win.blit(self.listLblCharHp[i][j], (char.rect[0] - 5, (char.rect[1] + char.rect[3]) - lblCharHpRect[3]))
+                self.win.blit(self.listLblCharHp[i][j], (char.rect[0] - 5, (char.rect[1] + char.rect[3]) - lblCharHpRect[3]))
 
                 self.listLblCharMovePoint[i][j] = self.fontHp.render(f"{char.movePoint}", True, (99, 91, 78))
                 lblCharMoveRect = self.listLblCharMovePoint[i][j].get_rect()
-                win.blit(
+                self.win.blit(
                     self.listLblCharMovePoint[i][j],
                     (char.rect[0] + char.rect[3] - lblCharMoveRect[3] - 5, (char.rect[1] + char.rect[3]) - lblCharMoveRect[3]),
                 )

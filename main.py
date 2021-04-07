@@ -1,93 +1,13 @@
 import pygame
-from Board import Board
 from constants import WIN_SIZE, FPS
 from Button import Button
-from paths import menuPath, imagePath
-from Character import Character
+from paths import menuPath
+from Game import Game
 
 pygame.init()
 WIN = pygame.display.set_mode((WIN_SIZE[0], WIN_SIZE[1]))
 pygame.display.set_caption("Dofus like")
 clock = pygame.time.Clock()
-
-
-def game():
-    run = True
-    board = Board(WIN)
-    prevSel = None
-    endTurn = False
-    bgImg = pygame.image.load(f"{imagePath}background.jpg")
-    while run:
-        WIN.blit(bgImg, (0, 0))
-        clock.tick(FPS)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-                pygame.quit()
-                quit()
-                break
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                mouseX, mouseY = pygame.mouse.get_pos()
-                col, row = board.getRowCol(mouseX, mouseY)
-
-                if board.isInGrid(col, row):
-                    cellSelected = board.getCellValue(row, col)
-                    if isinstance(cellSelected, Character) and cellSelected.isOwner(board.player):  # grid char
-
-                        if prevSel and prevSel != cellSelected and prevSel.isSelected():
-                            board.resetMoves()
-                            board.resetAttackTargets()
-                            prevSel.selected = False
-
-                        board.updateCellSelected(cellSelected)
-
-                        board.updateMovesList(cellSelected)
-
-                        board.setMoves(cellSelected)
-                        board.setAttackTargets(cellSelected)
-
-                        prevSel = cellSelected
-
-                    elif cellSelected == 1:  # grid moves
-                        board.resetMoves()
-                        board.moves = None
-                        board.resetAttackTargets()
-                        board.attackTargets = None
-
-                        prevSel.selected = False
-
-                        movePoint = abs(prevSel.row - row + prevSel.col - col)
-
-                        board.playerMovePoint -= movePoint
-                        prevSel.movePoint -= movePoint
-
-                        board.setCellValue(row, col, prevSel)
-                        board.setCellValue(prevSel.row, prevSel.col, 0)
-
-                        prevSel.changePos((row, col))
-
-                        if board.checkEndTurn(prevSel):
-                            endTurn = True
-
-                    elif isinstance(cellSelected, Character) and not cellSelected.isOwner(board.player):
-                        # board.ShowSkillUI()
-                        print("you can attackTargets")
-                        # skill =
-
-                if endTurn:
-                    board.nextPlayer()
-                    endTurn = False
-                    board.resetMovePoint()
-                    for rows in board.grid:
-                        for cols in rows:
-                            if isinstance(cols, Character):
-                                cols.resetMovePoint()
-
-                board.updateLblPlayerMove()
-
-        board.drawBoard(WIN)
-        pygame.display.update()
 
 
 def settings():
@@ -135,7 +55,7 @@ def main_menu():
                 break
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if playBtn.hovered:
-                    game()
+                    Game(WIN, clock).run()
                 elif settingsBtn.hovered:
                     settings()
 
