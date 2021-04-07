@@ -5,12 +5,14 @@ from Skill import Skill
 
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, charClass, pos, player, index, win):
+    def __init__(self, charClass, pos, player, index, win, all_buttons):
         self.health = CHAR_STATS[charClass]["hp"]
         self.movePoint = CHAR_STATS[charClass]["movePoint"]
         self.mana = CHAR_STATS[charClass]["mana"]
         self.defense = CHAR_STATS[charClass]["defense"]
         self.charClass = charClass
+
+        self.all_buttons = all_buttons
 
         self.img = pygame.image.load(f"{spritePath}{charClass}.png").convert_alpha()
         self.rect = self.img.get_rect()
@@ -35,8 +37,7 @@ class Character(pygame.sprite.Sprite):
     def initSkills(self):
 
         for index, skill in CHAR_STATS[self.charClass]["skills"].items():
-            new_skill = Skill(skill, index, self.win)
-            new_skill.Hide()
+            new_skill = Skill(skill, index, self.win, self.all_buttons)
             self.skills.append(new_skill)
 
     def isOwner(self, player):

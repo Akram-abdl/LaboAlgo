@@ -6,7 +6,7 @@ from collections import defaultdict
 
 
 class Board:
-    def __init__(self, win):
+    def __init__(self, win, all_buttons):
         self.grid = [[0 for x in range(GRID_SIZE[1])] for _ in range(GRID_SIZE[0])]
 
         self.playerList = [0, 1]
@@ -14,6 +14,8 @@ class Board:
         self.resetMovePoint()
 
         self.win = win
+
+        self.all_buttons = all_buttons
 
         self.moves = None
 
@@ -78,6 +80,16 @@ class Board:
     def updateCellSelected(self, cellSelected):
         cellSelected.selected = False if cellSelected.isSelected() else True
 
+    def updateSkill(self, cellSelected):
+        for i, index in self.charList.items():
+            for j, char in index.items():
+                if char.isSelected():
+                    for skill in char.skills:
+                        skill.show()
+                else:
+                    for skill in char.skills:
+                        skill.hide()
+
     def checkEndTurn(self, prevSel):
         endTurn = False
         if self.playerMovePoint <= 0:
@@ -104,14 +116,14 @@ class Board:
             player = 0
             row = 0
             col = int(GRID_SIZE[1] / 2) + index
-            self.grid[row][col] = Character(char, (row, col), player, index, self.win)
+            self.grid[row][col] = Character(char, (row, col), player, index, self.win, self.all_buttons)
             self.charList[player][index] = self.grid[row][col]
 
         for index, char in enumerate(charPlayer2):
             player = 1
             row = GRID_SIZE[0] - 1
             col = int(GRID_SIZE[1] / 2) + index
-            self.grid[row][col] = Character(char, (row, col), player, index, self.win)
+            self.grid[row][col] = Character(char, (row, col), player, index, self.win, self.all_buttons)
             self.charList[player][index] = self.grid[row][col]
 
     def initLbl(self):
@@ -150,7 +162,6 @@ class Board:
                             (255, 100, 100),
                             [(MARGIN + SQUARE_SIZE[0]) * column + MARGIN, (MARGIN + SQUARE_SIZE[1]) * row + MARGIN, SQUARE_SIZE[0], SQUARE_SIZE[1]],
                         )
-                    self.drawSkills(tile)
                     self.drawChar(tile)
                     self.drawLblChar()
 
@@ -172,8 +183,3 @@ class Board:
                     self.listLblCharMovePoint[i][j],
                     (char.rect[0] + char.rect[3] - lblCharMoveRect[3] - 5, (char.rect[1] + char.rect[3]) - lblCharMoveRect[3]),
                 )
-
-    def drawSkills(self, char):
-        if char.isSelected():
-            for skill in char.skills:
-                skill.button.draw()

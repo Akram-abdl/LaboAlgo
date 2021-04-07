@@ -3,6 +3,7 @@ from Board import Board
 from paths import imagePath
 from Character import Character
 from constants import FPS
+from Button import Button2
 
 
 class Game:
@@ -10,13 +11,16 @@ class Game:
         self.running = True
         self.clock = clock
         self.win = win
-        self.board = Board(win)
         self.bgImg = pygame.image.load(f"{imagePath}background.jpg")
 
-        self.all_sprites = pygame.sprite.Group()
+        # self.test = Button2(500, 500, 94, 94, self.onClick, self.font)
+
+        self.all_buttons = pygame.sprite.Group()
 
         self.prevSel = None
         self.endTurn = False
+
+        self.board = Board(win, self.all_buttons)
 
     def run(self):
         while self.running:
@@ -35,6 +39,8 @@ class Game:
                     if self.board.isInGrid(col, row):
                         cellSelected = self.board.getCellValue(row, col)
                         if isinstance(cellSelected, Character) and cellSelected.isOwner(self.board.player):  # grid char
+                            if cellSelected.movePoint <= 0:
+                                break
 
                             if self.prevSel and self.prevSel != cellSelected and self.prevSel.isSelected():
                                 self.board.resetMoves()
@@ -47,6 +53,7 @@ class Game:
 
                             self.board.setMoves(cellSelected)
                             self.board.setAttackTargets(cellSelected)
+                            self.board.updateSkill(cellSelected)
 
                             self.prevSel = cellSelected
 
@@ -57,6 +64,8 @@ class Game:
                             self.board.attackTargets = None
 
                             self.prevSel.selected = False
+
+                            self.board.updateSkill(cellSelected)
 
                             movePoint = abs(self.prevSel.row - row + self.prevSel.col - col)
 
@@ -85,8 +94,12 @@ class Game:
 
                     self.board.updateLblPlayerMove()
 
-                for button in self.all_sprites:
+                for button in self.all_buttons:
                     button.handle_event(event)
 
             self.board.drawBoard()
+            self.all_buttons.draw(self.win)
             pygame.display.update()
+
+    def onClick(self):
+        print("oui")
