@@ -28,8 +28,8 @@ class Board:
         self.lblPlayerMovePoint = None
         self.lblPlayerMovePointRect = None
 
-        self.lblCharHpList = defaultdict(dict)
-        self.lblCharMoveList = defaultdict(dict)
+        self.listLblCharHp = defaultdict(dict)
+        self.listLblCharMovePoint = defaultdict(dict)
 
         self.initLbl()
 
@@ -128,14 +128,14 @@ class Board:
     def updateLblChar(self, win):
         for i, index in self.charList.items():
             for j, char in index.items():
-                self.lblCharHpList[i][j] = self.fontHp.render(f"{char.health}", True, (255, 0, 0))
-                lblCharHpRect = self.lblCharHpList[i][j].get_rect()
-                win.blit(self.lblCharHpList[i][j], (char.rect[0] - 5, (char.rect[1] + char.rect[3]) - lblCharHpRect[3]))
+                self.listLblCharHp[i][j] = self.fontHp.render(f"{char.health}", True, (255, 0, 0))
+                lblCharHpRect = self.listLblCharHp[i][j].get_rect()
+                win.blit(self.listLblCharHp[i][j], (char.rect[0] - 5, (char.rect[1] + char.rect[3]) - lblCharHpRect[3]))
 
-                self.lblCharMoveList[i][j] = self.fontHp.render(f"{char.movePoint}", True, (99, 91, 78))
-                lblCharMoveRect = self.lblCharMoveList[i][j].get_rect()
+                self.listLblCharMovePoint[i][j] = self.fontHp.render(f"{char.movePoint}", True, (99, 91, 78))
+                lblCharMoveRect = self.listLblCharMovePoint[i][j].get_rect()
                 win.blit(
-                    self.lblCharMoveList[i][j],
+                    self.listLblCharMovePoint[i][j],
                     (char.rect[0] + char.rect[3] - lblCharMoveRect[3] - 5, (char.rect[1] + char.rect[3]) - lblCharMoveRect[3]),
                 )
 
