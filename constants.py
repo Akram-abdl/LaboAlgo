@@ -13,8 +13,8 @@ CHAR_STATS = {
         "mana": 7,
         "defense": 30,
         "skills": {
-            1: {"name": "Coup d'épée", "pathImg": f"{imagePath}skill/sword_attack.png", "pathImgHover": f"{imagePath}skill/sword_attack.png"},
-            2: {"name": "Épée de la mort", "pathImg": f"{imagePath}skill/dead_sword.png", "pathImgHover": f"{imagePath}skill/dead_sword.png"},
+            1: {"name": "Coup d'épée", "pathImg": f"{imagePath}skill/sword_attack.png", "pathImgHover": f"{imagePath}skill/sword_attack.png", "manaCost" : 2, "damage" : 10, "range": [[1,0],[-1,0],[0,1],[0,-1]], "damageZone" : [[0,0]]},
+            2: {"name": "Épée de la mort", "pathImg": f"{imagePath}skill/dead_sword.png", "pathImgHover": f"{imagePath}skill/dead_sword.png", "manaCost" : 4, "damage" : 20, "range": [[0,0]], "damageZone" : [[1,1],[1,0],[1,-1],[0,1],[0,0],[0,-1],[-1,1],[-1,0],[-1,-1]]},
         },
     },
     "archer": {
@@ -23,7 +23,8 @@ CHAR_STATS = {
         "mana": 7,
         "defense": 10,
         "skills": {
-            1: {"name": "Tire de flèche", "pathImg": f"{imagePath}skill/arrow_attack.png", "pathImgHover": f"{imagePath}skill/arrow_attack.png"}
+            1: {"name": "Tir de flèche", "pathImg": f"{imagePath}skill/arrow_attack.png", "pathImgHover": f"{imagePath}skill/arrow_attack.png", "manaCost" : 2, "damage" : 15, "range": [[4,0],[-4,0],[0,4],[0,-4]], "damageZone" : [[0,0]]},
+            2: {"name": "Pluie de flèches", "pathImg": f"{imagePath}skill/arrows_rain_attack.png", "pathImgHover": f"{imagePath}skill/arrows_rain_attack.png", "manaCost" : 4, "damage" : 10, "range": [[3,0],[-3,0],[0,3],[0,-3],[4,0],[-4,0],[0,4],[0,-4],[5,0],[-5,0],[0,5],[0,-5]], "damageZone" : [[1,1],[1,0],[1,-1],[0,1],[0,0],[0,-1],[-1,1],[-1,0],[-1,-1]]},
         },
     },
 }

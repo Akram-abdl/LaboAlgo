@@ -100,6 +100,3 @@ class Game:
             self.board.drawBoard()
             self.all_buttons.draw(self.win)
             pygame.display.update()
-
-    def onClick(self):
-        print("oui")

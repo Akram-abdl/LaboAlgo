@@ -116,14 +116,14 @@ class Board:
             player = 0
             row = 0
             col = int(GRID_SIZE[1] / 2) + index
-            self.grid[row][col] = Character(char, (row, col), player, index, self.win, self.all_buttons)
+            self.grid[row][col] = Character(char, (row, col), player, index, self.win, self.all_buttons, self.grid)
             self.charList[player][index] = self.grid[row][col]
 
         for index, char in enumerate(charPlayer2):
             player = 1
             row = GRID_SIZE[0] - 1
             col = int(GRID_SIZE[1] / 2) + index
-            self.grid[row][col] = Character(char, (row, col), player, index, self.win, self.all_buttons)
+            self.grid[row][col] = Character(char, (row, col), player, index, self.win, self.all_buttons, self.grid)
             self.charList[player][index] = self.grid[row][col]
 
     def initLbl(self):

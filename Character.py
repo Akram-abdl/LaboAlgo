@@ -5,7 +5,7 @@ from Skill import Skill
 
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, charClass, pos, player, index, win, all_buttons):
+    def __init__(self, charClass, pos, player, index, win, all_buttons, grid):
         self.health = CHAR_STATS[charClass]["hp"]
         self.movePoint = CHAR_STATS[charClass]["movePoint"]
         self.mana = CHAR_STATS[charClass]["mana"]
@@ -13,6 +13,7 @@ class Character(pygame.sprite.Sprite):
         self.charClass = charClass
 
         self.all_buttons = all_buttons
+        self.grid = grid
 
         self.img = pygame.image.load(f"{spritePath}{charClass}.png").convert_alpha()
         self.rect = self.img.get_rect()
@@ -25,7 +26,6 @@ class Character(pygame.sprite.Sprite):
         self.win = win
 
         self.skills = []
-        self.initSkills()
 
         self.selected = False
 
@@ -35,9 +35,10 @@ class Character(pygame.sprite.Sprite):
         return "oui"
 
     def initSkills(self):
-
+        print("initSkill()")
+        self.skills = []
         for index, skill in CHAR_STATS[self.charClass]["skills"].items():
-            new_skill = Skill(skill, index, self.win, self.all_buttons)
+            new_skill = Skill(skill, index, self.win, self.all_buttons, self.grid, self.row, self.col)
             self.skills.append(new_skill)
 
     def isOwner(self, player):
@@ -63,9 +64,10 @@ class Character(pygame.sprite.Sprite):
         self.rect.y = self.getY()
 
     def getMoves(self, board):
+        self.initSkills()
         moves = []
         attack = []
-
+        print("getMoves()")
         for i in range(1, self.movePoint + 1):
             if i > board.playerMovePoint:
                 break
